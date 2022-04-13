@@ -6,15 +6,15 @@ Homework 3 of FPGA design
 fpga-hw3
 ├── Problem1
 │   ├── bit
-│   ├── src
+│   ├── src (.c & .xsa)
 │   └── xdc
 ├── Problem2
 │   ├── bit
-│   ├── src
+│   ├── src (.c & .xsa)
 │   └── xdc
 ├── Problem3
 │   ├── bit
-│   ├── src
+│   ├── src (include top, IPs, .c, .h, Makefile & .xsa)
 │   └── xdc
 └── README.md
 ```
