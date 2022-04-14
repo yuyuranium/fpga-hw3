@@ -63,11 +63,11 @@ int main() {
 				RGB_State = WHITE;
 				break;
 		}
-		/*Decide the duty cycle for RGB*/
+		/*Generate PWM signal*/
 		red = (RGB_State & 0xff0000) >> 16;
 		grn = (RGB_State & 0x00ff00) >> 8 ;
 		blu = RGB_State & 0x0000ff;
-		/*outer loop is repeat so that RGB change is visible*/
+		/*outer loop is set so that RGB change is visible*/
 		for(int j = 0; j < PERIOD; j++)
 		{
 		/*inner loop mix the color for RGB led*/
