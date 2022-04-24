@@ -1,3 +1,11 @@
+/* tb.cc
+ * 
+ * The cpp file is used as testbench to drive the simulation of `top`.
+ * Use the following command to run the simulation.
+ *   verilator -cc --exe -O3 top.v tb.cc --trace
+ *   make -j -C obj_dir -f Vtop.mk
+ *   obj_dir/Vtop
+ */
 #include <verilated.h>
 #include <iostream>
 #include <random>
@@ -23,23 +31,27 @@ int main(int argc, char *argv[])
   contextp->traceEverOn(true);
   contextp->commandArgs(argc, argv);
 
-  unsigned char opd1, opd2, op;
-  srand(time(nullptr));
-
   Vtop *top = new Vtop(contextp, "top");
   top->clk_i = 0;
   top->rst_ni = 0;
   top->wr_en_i = 0;
   top->addr_i = 0;
   top->data_i = 0;
-  sim(contextp, top, clk_i, 5);
+  sim(contextp, top, clk_i, 5);  /* trigger reset for 5 half clock cycles */
 
+  unsigned char opd1, opd2, op;
+  srand(time(nullptr));
+
+  /* This section tests the design for Problem3-1. Given opd1, opd2, and op, we
+   * write the data to addr_i = 0, and retrieve the data back at addr_i = 1. */
   top->rst_ni = 1;
   for (int i = 0; i < 4; ++i) {
+    /* Ramdomly generate the data to test */
     opd1 = rand() & 0xff;
     opd2 = rand() & 0xff;
-    op = rand() & 0x3;
+    op = i;  /* testing op = 00, 01, 10, 11 */
 
+    /* Write the input at addr_i = 0 */
     top->wr_en_i = 1;
     top->addr_i = 0;
     top->data_i = (op << 16) | (opd2 << 8) | (opd1);
@@ -47,7 +59,7 @@ int main(int argc, char *argv[])
 
     top->wr_en_i = 0;
     top->addr_i = 1;
-    sim(contextp, top, clk_i, 6);
+    sim(contextp, top, clk_i, 2);
   }
 
   sim(contextp, top, clk_i, 40960);
