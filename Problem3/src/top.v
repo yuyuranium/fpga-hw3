@@ -3,27 +3,26 @@
 module top (
   input  wire        clk_i,
   input  wire        rst_ni,
-  input  wire        wr_en,
-  input  wire [3:0]  addr_i,
+  input  wire        wr_en_i,
+  input  wire  [3:0] addr_i,
   input  wire [31:0] data_i,
   output reg  [31:0] data_o
 );
 
   integer i;
-  reg [31:0] ctrl_regs[0:15];
+  reg  [31:0] ctrl_regs[0:15];
   wire [7:0] res_d;
 
   always @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
-      for (i = 0; i < 15; i = i + 1) begin
+      for (i = 0; i < 16; i = i + 1) begin
         ctrl_regs[i] <= 32'd0;
       end
     end else begin
-      if (wr_en) begin
+      if (wr_en_i) begin
         ctrl_regs[addr_i] <= data_i;
       end else begin
         ctrl_regs[1]      <= {24'd0, res_d};
-        ctrl_regs[addr_i] <= ctrl_regs[addr_i];
       end
     end
   end
@@ -40,8 +39,9 @@ module top (
   );
 
   initial begin
-    $dumpvars;
+    $monitor("res_d = %d", res_d);
     $dumpfile("top.vcd");
+    $dumpvars;
   end
 
 endmodule
