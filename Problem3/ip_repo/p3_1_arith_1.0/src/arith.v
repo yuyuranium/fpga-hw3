@@ -1,3 +1,8 @@
+/* arith.v
+ * 
+ * The circuit calculate the operation on two input operands.
+ */
+
 module arith #(
   Add = 0,
   Sub = 1,

@@ -371,7 +371,7 @@
 	      // Address decoding for reading registers
 	      case ( axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
 	        2'h0   : reg_data_out <= slv_reg0;
-	        2'h1   : reg_data_out <= {28'd0, res_d};
+	        2'h1   : reg_data_out <= {{24{res_d[7]}}, res_d};
 	        2'h2   : reg_data_out <= slv_reg2;
 	        2'h3   : reg_data_out <= slv_reg3;
 	        default : reg_data_out <= 0;
@@ -395,16 +395,16 @@
 	          axi_rdata <= reg_data_out;     // register read data
 	        end   
 	    end
-	end
-	
-	wire [7:0] res_d;    
+	end    
 
 	// Add user logic here
+	wire [7:0] res_d;
+	
 	arith u_arith (
 	  .opd1_i(slv_reg0[7:0]),
 	  .opd2_i(slv_reg0[15:8]),
-	  .op_i(slv_reg0[17:16]),
-	  .res_o(res_d)
+	  .op_i  (slv_reg0[17:16]),
+	  .res_o (res_d)
 	);
 
 	// User logic ends
