@@ -14,6 +14,7 @@ always @(*) begin
     Add: res_o = opd1_i + opd2_i;
     Sub: res_o = opd1_i - opd2_i;
     Mul: res_o = opd1_i * opd2_i;
+    default: res_o = 0;
   endcase
 end
 
