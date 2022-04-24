@@ -1,11 +1,11 @@
 
 `timescale 1ns / 1ps
-`include "p3-1-arith_v1_0_tb_include.svh"
+`include "p3_1_arith_v1_0_tb_include.svh"
 
 import axi_vip_pkg::*;
-import p3-1-arith_v1_0_bfm_1_master_0_0_pkg::*;
+import p3_1_arith_v1_0_bfm_1_master_0_0_pkg::*;
 
-module p3-1-arith_v1_0_tb();
+module p3_1_arith_v1_0_tb();
 
 
 xil_axi_uint                            error_cnt = 0;
@@ -104,7 +104,7 @@ axi_ready_gen                           awready_gen2;
 axi_ready_gen                           wready_gen2;  
 axi_ready_gen                           arready_gen2;  
 xil_axi_payload_byte                    data_mem[xil_axi_ulong];  
-p3-1-arith_v1_0_bfm_1_master_0_0_mst_t          mst_agent_0;
+p3_1_arith_v1_0_bfm_1_master_0_0_mst_t          mst_agent_0;
 
   `BD_WRAPPER DUT(
       .ARESETN(reset), 

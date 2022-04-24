@@ -1,7 +1,7 @@
 
 `timescale 1 ns / 1 ps
 
-	module p3-1-arith_v1_0 #
+	module p3_1_arith_v1_0 #
 	(
 		// Users to add parameters here
 
@@ -44,10 +44,10 @@
 		input wire  s00_axi_rready
 	);
 // Instantiation of Axi Bus Interface S00_AXI
-	p3-1-arith_v1_0_S00_AXI # ( 
+	p3_1_arith_v1_0_S00_AXI # ( 
 		.C_S_AXI_DATA_WIDTH(C_S00_AXI_DATA_WIDTH),
 		.C_S_AXI_ADDR_WIDTH(C_S00_AXI_ADDR_WIDTH)
-	) p3-1-arith_v1_0_S00_AXI_inst (
+	) p3_1_arith_v1_0_S00_AXI_inst (
 		.S_AXI_ACLK(s00_axi_aclk),
 		.S_AXI_ARESETN(s00_axi_aresetn),
 		.S_AXI_AWADDR(s00_axi_awaddr),
