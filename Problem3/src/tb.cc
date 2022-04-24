@@ -19,7 +19,7 @@
       (top)->clk = !(top)->clk;      \
       (top)->eval();                 \
     }                                \
-  } while (0);
+  } while (0)
 
 using namespace std;
 
@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
   srand(time(nullptr));
 
   /* This section tests the design for Problem3-1. Given opd1, opd2, and op, we
-   * write the data to addr_i = 0, and retrieve the data back at addr_i = 1. */
+   * write the data to addr_i = 0, and retrieve the data back at addr_i = 1.
+   */
   top->rst_ni = 1;
   for (int i = 0; i < 4; ++i) {
     /* Ramdomly generate the data to test */
@@ -53,12 +54,27 @@ int main(int argc, char *argv[])
 
     /* Write the input at addr_i = 0 */
     top->wr_en_i = 1;
-    top->addr_i = 0;
+    top->addr_i = 0x00000000;
     top->data_i = (op << 16) | (opd2 << 8) | (opd1);
     sim(contextp, top, clk_i, 2);
 
     top->wr_en_i = 0;
-    top->addr_i = 1;
+    top->addr_i = 0x00000001;
+    sim(contextp, top, clk_i, 2);
+  }
+
+  /* This section tests the design for Problem3-3. Given a 32-bit number, the 
+   * circuit should output its parity bit.
+   */
+  for (int i = 0; i < 3; ++i) {
+    /* Randomly generate and write the data to test */
+    top->wr_en_i = 1;
+    top->addr_i = 0x20000000;
+    top->data_i = rand();
+    sim(contextp, top, clk_i, 2);
+
+    top->wr_en_i = 0;
+    top->addr_i = 0x20000001;
     sim(contextp, top, clk_i, 2);
   }
 
