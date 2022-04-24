@@ -11,7 +11,7 @@
 #include "xgpio.h"
 #include "xil_printf.h"
 
-#define SIZE 5
+#define SIZE 20 
 #define SW_DEVICE_ID  XPAR_GPIO_0_DEVICE_ID
 
 XGpio SW_Gpio;
