@@ -27,7 +27,7 @@ module top (
 
   /* Wires connecting to ouputs of each design */
   wire [7:0] res_d;
-  wire odd_parity_d, even_parity_d;
+  wire even_parity_d;
 
   always @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -104,7 +104,7 @@ module top (
       4'h0: begin
         case (offset)
           28'h0: reg_data_d <= slv_reg0_0;
-          28'h1: reg_data_d <= {24'd0, res_d};
+          28'h1: reg_data_d <= {{24{res_d[7]}}, res_d};
           default: begin
             reg_data_d <= 32'd0;
           end
@@ -125,7 +125,7 @@ module top (
       4'h2: begin
         case (offset)
           28'h0: reg_data_d <= slv_reg2_0;
-          28'h1: reg_data_d <= {16'd0, 7'd0, odd_parity_d, 7'd0, even_parity_d};
+          28'h1: reg_data_d <= {31'd0, even_parity_d};
           default: begin
             reg_data_d <= 32'd0;
           end
@@ -146,7 +146,6 @@ module top (
 
   parity u_parity (
     .data_i       (slv_reg2_0),
-    .odd_parity_o (odd_parity_d),
     .even_parity_o(even_parity_d)
   );
 
