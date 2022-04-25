@@ -1,6 +1,6 @@
 /* sort.v
  *
- * The circuit that sorts 16 8-bit data for Problem3-2.
+ * The circuit that sorts 16 8-bit unsigned numbers for Problem3-2.
  */
 `define IDLE  4'h0
 `define PASS1 4'h1
@@ -24,13 +24,14 @@ module sort (
 
   integer i;
   reg [3:0] state_q, state_d;
+  reg [7:0] proc_cnt_q, proc_cnt_d;  // process counter
+
   reg [7:0] in_buf[0:15];    // input buffer
   reg [7:0] out_buf[0:15];   // output buffer
   reg [4:0] cnt_arr[0:255];  // register to store count of each input data
 
-  reg [7:0] proc_cnt_q, proc_cnt_d; // process counter
-  reg [4:0] cnt_arr_d;
-  reg [7:0] pos;
+  reg [7:0] pos;        // the position to write cnt_arr
+  reg [4:0] cnt_arr_d;  // next input of cnt_arr
 
   assign busy_o  = state_q != `IDLE;
   assign valid_o = state_q == `DONE;
@@ -123,6 +124,44 @@ module sort (
     end
   end
 
+  always @(*) begin
+    case (state_q)
+      `PASS1: begin
+        pos = in_buf[proc_cnt_q[3:0]];
+      end
+      `PASS2: begin
+        pos = proc_cnt_q;
+      end
+      `PASS3: begin
+        pos = in_buf[proc_cnt_q[3:0]];
+      end
+      default: begin
+        pos = 8'd0;
+      end
+    endcase
+  end
+
+  always @(*) begin
+    case (state_q)
+      `PASS1: begin
+        cnt_arr_d = cnt_arr[pos] + 5'd1;
+      end
+      `PASS2: begin
+        if (~|pos) begin
+          cnt_arr_d = cnt_arr[0];
+        end else begin
+          cnt_arr_d = cnt_arr[pos - 8'd1] + cnt_arr[pos];
+        end
+      end
+      `PASS3: begin
+        cnt_arr_d = cnt_arr[pos] - 5'd1;
+      end
+      default: begin
+        cnt_arr_d = 5'd0;
+      end
+    endcase
+  end
+
   /* Process counter */
   always @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -172,49 +211,9 @@ module sort (
       end
     end else begin
       if (state_q == `PASS3) begin
-        out_buf[cnt_arr_d[3:0]] <= pos;  // pos == in_buf[proc_cnt_q[3:0]]
+        out_buf[cnt_arr_d[3:0]] <= pos;  // pos is in_buf[proc_cnt_q[3:0]]
       end
     end
-  end
-
-  /* Position index selector on cnt_arr */
-  always @(*) begin
-    case (state_q)
-      `PASS1: begin
-        pos = in_buf[proc_cnt_q[3:0]];
-      end
-      `PASS2: begin
-        pos = proc_cnt_q;
-      end
-      `PASS3: begin
-        pos = in_buf[proc_cnt_q[3:0]];
-      end
-      default: begin
-        pos = 8'd0;
-      end
-    endcase
-  end
-
-  /* Temp data selector as a part in next input of cnt_arr */
-  always @(*) begin
-    case (state_q)
-      `PASS1: begin
-        cnt_arr_d = cnt_arr[pos] + 5'd1;
-      end
-      `PASS2: begin
-        if (~|pos) begin
-          cnt_arr_d = cnt_arr[0];
-        end else begin
-          cnt_arr_d = cnt_arr[pos - 8'd1] + cnt_arr[pos];
-        end
-      end
-      `PASS3: begin
-        cnt_arr_d = cnt_arr[pos] - 5'd1;
-      end
-      default: begin
-        cnt_arr_d = 5'd0;
-      end
-    endcase
   end
 
 endmodule
