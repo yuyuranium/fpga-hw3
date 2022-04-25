@@ -150,9 +150,4 @@ module top (
     .even_parity_o(even_parity_d)
   );
 
-  initial begin
-    $dumpfile("top.vcd");
-    $dumpvars;
-  end
-
 endmodule
