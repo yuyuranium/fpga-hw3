@@ -13,20 +13,10 @@
 #include <ctime>
 #include "Vtop.h"
 
-#define sim(contextp, top, clk, t)   \
-  do {                               \
-    for (int i = 0; i < (t); ++i) {  \
-      (contextp)->timeInc(1);        \
-      (top)->clk = !(top)->clk;      \
-      (top)->eval();                 \
-    }                                \
-  } while (0)
-
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-
   VerilatedContext *contextp = new VerilatedContext();
   contextp->debug(0);
   contextp->traceEverOn(true);
