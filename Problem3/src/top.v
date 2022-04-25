@@ -44,7 +44,7 @@ module top (
       slv_reg2_0 <= 32'd0;
       slv_reg2_1 <= 32'd0;
     end else begin
-      if (wr_en_i) begin
+      if (wr_en_i || valid) begin
         case (base)
           4'h0: begin
             case (offset)
@@ -178,7 +178,7 @@ module top (
   sort u_sort (
     .clk_i  (clk_i),
     .rst_ni (rst_ni),
-    .en_i   (slv_reg1_0[0] & busy),
+    .en_i   (slv_reg1_0[0] ^ busy),
     .busy_o (busy),
     .valid_o(valid),
     .data_i ({slv_reg1_4, slv_reg1_3, slv_reg1_2, slv_reg1_1}),
