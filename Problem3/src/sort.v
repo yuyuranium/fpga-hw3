@@ -139,6 +139,7 @@ module sort (
           proc_cnt_d = proc_cnt_q + 4'd1;
         end
       end
+      // TODO PASS3
       default: begin
         proc_cnt_d = 4'd0;
       end
@@ -154,10 +155,13 @@ module sort (
       `PASS2: begin
         pos = in_buf[proc_cnt_q];
       end
+      // TODO PASS3
       default: begin
         pos = 8'd0;
       end
     endcase
   end
+
+  /* Temp data selector */
 
 endmodule
