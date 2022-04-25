@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   srand(time(nullptr));
 
   int posedge_cnt = 0;
-  while (!contextp->gotFinish() && posedge_cnt < 30) {
+  while (!contextp->gotFinish() && posedge_cnt < 500) {
     top->rst_ni = 1;
     if (contextp->time() >= 3 && contextp->time() < 5) {
       top->rst_ni = 0;
@@ -92,7 +92,35 @@ int main(int argc, char *argv[])
         top->wr_en_i = 0;
         top->addr_i = 0x20000001;
         break;
+      /* This section tests the design for Problem3-2. */
+      case 20:
+        top->wr_en_i = 1;
+        top->addr_i = 0x10000001;
+        top->data_i = rand();
+        break;
+      case 21:
+        top->wr_en_i = 1;
+        top->addr_i = 0x10000002;
+        top->data_i = rand();
+        break;
+      case 22:
+        top->wr_en_i = 1;
+        top->addr_i = 0x10000003;
+        top->data_i = rand();
+        break;
+      case 23:
+        top->wr_en_i = 1;
+        top->addr_i = 0x10000004;
+        top->data_i = 0x87878787;
+        break;
+      case 24:
+        top->wr_en_i = 1;
+        top->addr_i = 0x10000000;
+        top->data_i = 1;
+        break;
       default:
+        top->wr_en_i = 0;
+        top->data_i = 0;
         break;
       }
     }
