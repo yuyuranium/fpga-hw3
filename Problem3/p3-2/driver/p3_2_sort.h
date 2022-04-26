@@ -81,5 +81,5 @@
  *
  */
 XStatus P3_2_SORT_Reg_SelfTest(void * baseaddr_p);
-void sort(UINTPTR baseAddr, u32 busy_signal, u32 data1, u32 data2, u32 data3, u32 data4);
+void sort(UINTPTR baseAddr, u32 data1, u32 data2, u32 data3, u32 data4);
 #endif // P3_2_SORT_H

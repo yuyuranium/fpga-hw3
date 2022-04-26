@@ -13,7 +13,7 @@
 
 int main()
 {
-	printf("Program Start.\n\r");
+	printf("Program Start.\n\n\r");
 	while(getchar() != EOF) {
         
         int A[16] = {0};
@@ -37,8 +37,7 @@ int main()
                 data[i] = data[i] + (data_mask << 8*j);
             }
         }
-        u32 busy_signal = 1;
-        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, busy_signal, data[0], data[1], data[2], data[3]);
+        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, data[0], data[1], data[2], data[3]);
 	}
 	printf("Program End.\n\r");
     return 0;
