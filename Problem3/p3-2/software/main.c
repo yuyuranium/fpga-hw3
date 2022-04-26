@@ -13,10 +13,11 @@
 
 int main()
 {
-	printf("Program Start.\n\n\r");
+	printf("Program Start.\n");
+	printf("press any buttom to start. \n\n\r");
 	while(getchar() != EOF) {
         
-        int A[16] = {0};
+        u32 A[16] = {0};
 
         // generate number for input
         printf("input sequence is: ");
@@ -27,17 +28,14 @@ int main()
         }
         printf("\n");
 
-        // doing data mask
-		u32 data[4] = {0};
-        for(int i = 0; i<4; i++)
+        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, A, 16);
+        // print result
+        printf("the result is: ");
+        for(int i = 0; i < 16; i++)
         {
-            for(int j = 0; j < 4; j++)
-            {
-            	u32 data_mask = A[4*i+j] & 0xff;
-                data[i] = data[i] + (data_mask << 8*j);
-            }
+            printf("%u ",A[i]);
         }
-        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, data[0], data[1], data[2], data[3]);
+        printf("\n\n");
 	}
 	printf("Program End.\n\r");
     return 0;
