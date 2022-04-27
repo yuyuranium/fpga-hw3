@@ -236,7 +236,7 @@
 	      slv_reg8 <= 0;
 	    end 
 	  else begin
-        case ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
+	    case ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
           4'h0: begin
             if (!busy) begin  // not busy, allow input when slv_reg_wren
                 if (slv_reg_wren)

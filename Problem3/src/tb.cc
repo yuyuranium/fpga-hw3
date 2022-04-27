@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
   unsigned char opd1, opd2, op = 0;
   srand(time(nullptr));
 
-  int posedge_cnt = 0;
-  while (!contextp->gotFinish() && posedge_cnt < 500) {
+  int posedge_cnt = 0, sort_cnt = 0;
+  while (!contextp->gotFinish() && posedge_cnt < 600) {
     top->rst_ni = 1;
     if (contextp->time() >= 3 && contextp->time() < 5) {
       top->rst_ni = 0;
@@ -121,6 +121,14 @@ int main(int argc, char *argv[])
       default:
         top->wr_en_i = 0;
         top->data_i = 0;
+        if (posedge_cnt > 25 && sort_cnt < 2) {
+          top->addr_i = 0x10000000;
+          if (top->data_o == 0) {
+            cout << "sort again" << endl;
+            sort_cnt++;
+            posedge_cnt = 19;
+          }
+        }
         break;
       }
     }

@@ -120,7 +120,20 @@ module sort (
         cnt_arr[8 * i + 7] <= 5'd0;
       end
     end else begin
-      cnt_arr[pos] <= cnt_arr_d;
+      if (state_q != `DONE) begin
+        cnt_arr[pos] <= cnt_arr_d;
+      end else begin
+        for (i = 0; i < 32; i = i + 1) begin
+          cnt_arr[8 * i]     <= 5'd0;
+          cnt_arr[8 * i + 1] <= 5'd0;
+          cnt_arr[8 * i + 2] <= 5'd0;
+          cnt_arr[8 * i + 3] <= 5'd0;
+          cnt_arr[8 * i + 4] <= 5'd0;
+          cnt_arr[8 * i + 5] <= 5'd0;
+          cnt_arr[8 * i + 6] <= 5'd0;
+          cnt_arr[8 * i + 7] <= 5'd0;
+        end
+      end
     end
   end
 
