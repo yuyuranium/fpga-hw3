@@ -24,15 +24,14 @@
  */
 
 /************************** Function Definitions ***************************/
-void sort(UINTPTR baseAddr, u32* data_in, u32 size)
+void sort(UINTPTR baseAddr, u32* data_in)
 {
 	u32 data[4] = {0};
 	for(int i = 0; i<4; i++)
 	{
 	   for(int j = 0; j < 4; j++)
 	   {
-	       u32 data_mask = data_in[4*i+j] & 0xff;
-	       data[i] = data[i] + (data_mask << 8*j);
+	       data[i] = data[i] + (data_in[4*i+j] << 8*j);
 	   }
 	}
 	P3_2_SORT_mWriteReg(baseAddr, 4, data[0]);
@@ -45,7 +44,7 @@ void sort(UINTPTR baseAddr, u32* data_in, u32 size)
 	P3_2_SORT_mWriteReg(baseAddr, 0, 1);
 
 	u32 sorted_data[4] = {0};
-	u32 result[16] = {0};
+	
 	    // wait data after sorting
 	while(P3_2_SORT_mReadReg(baseAddr,0) == 1);
 

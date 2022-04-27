@@ -28,7 +28,7 @@ int main()
         }
         printf("\n");
 
-        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, A, 16);
+        sort(XPAR_P3_2_SORT_0_S00_AXI_BASEADDR, A);
         // print result
         printf("the result is: ");
         for(int i = 0; i < 16; i++)
